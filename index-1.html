@@ -1,0 +1,77 @@
+<!doctype html><html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827"><title>Immobilienrechner 2.0</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--text:#17202a;--muted:#667085;--line:#e4e7ec;--blue:#2563eb;--green:#0f8a63;--yellow:#b7791f;--red:#c0392b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text)}
+.wrap{max-width:1200px;margin:auto;padding:16px}.hero{background:#111827;color:#fff;border-radius:20px;padding:24px;margin-bottom:16px}.hero h1{margin:0 0 6px;font-size:30px}.hero p{margin:0;color:#d1d5db}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 15px #00000008;margin-bottom:16px}
+h2{font-size:18px;margin:0 0 14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}label{font-size:13px;font-weight:700;color:#344054}
+input{width:100%;margin-top:6px;padding:11px;border:1px solid #d0d5dd;border-radius:10px;font-size:15px}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:750;cursor:pointer;background:var(--blue);color:#fff;margin:7px 7px 0 0}.secondary{background:#eef2f6;color:#17202a}
+.status{padding:16px;border-radius:13px;margin-bottom:16px;font-weight:800}.good{background:#e8f7f1;color:var(--green)}.warn{background:#fff5df;color:var(--yellow)}.bad{background:#fdecea;color:var(--red)}
+.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{border:1px solid var(--line);border-radius:12px;padding:12px}.metric small{color:var(--muted)}.metric .v{font-size:21px;font-weight:850;margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:13px}td{padding:8px 0;border-bottom:1px solid var(--line)}td:last-child{text-align:right;font-weight:750}
+.muted,.hint{color:var(--muted)}.hint{font-size:12px;line-height:1.45}.big{font-size:28px;font-weight:900}.bar{height:12px;background:#e9edf2;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue)}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}.tab{padding:8px 11px;border-radius:999px;background:#e8edf5;font-size:13px;font-weight:700}.tab.active{background:#dbe7ff;color:#174ea6}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.wrap{padding:10px}}
+.navbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.navbtn{display:inline-block;text-decoration:none;padding:10px 14px;border-radius:10px;background:#e8edf5;color:#17202a;font-size:14px;font-weight:800}.navbtn.active{background:#2563eb;color:#fff}
+</style></head><body><div class="wrap">
+<section class="hero"><h1>🏠 Immobilienrechner 2.0</h1><p>Kapitalanlage prüfen: Kaufpreis, Finanzierung, Cashflow, Steuer und Vermögensaufbau.</p></section>
+<nav class="navbar"><a class="navbtn active" href="index.html">🏠 Immobilienrechner</a><a class="navbtn" href="garagen-rechner.html">🚗 Garagen-Rechner</a></nav>
+<div class="tabs"><span class="tab active">Objekt</span><span class="tab">Finanzierung</span><span class="tab">Cashflow</span><span class="tab">Rendite</span><span class="tab">Langfristig</span></div>
+<div class="grid"><div>
+<div class="card"><h2>1. Objekt & Kaufnebenkosten</h2><div class="fields">
+<label>Kaufpreis (€)<input id="price" type="number" value="300000"></label><label>Wohnfläche (m²)<input id="sqm" type="number" value="70"></label>
+<label>Kaltmiete / Monat (€)<input id="rent" type="number" value="1200"></label><label>Grunderwerbsteuer (%)<input id="transfer" type="number" step=".1" value="6.5"></label>
+<label>Makler Käuferanteil (%)<input id="broker" type="number" step=".01" value="3.57"></label><label>Notar + Grundbuch (%)<input id="notary" type="number" step=".1" value="2"></label>
+<label>Renovierung / Modernisierung (€)<input id="reno" type="number" value="0"></label><label>Weitere Kaufkosten (€)<input id="otherbuy" type="number" value="0"></label>
+</div></div>
+<div class="card"><h2>2. Finanzierung</h2><div class="fields">
+<label>Eigenkapital (€)<input id="equity" type="number" value="60000"></label><label>Sollzins p.a. (%)<input id="interest" type="number" step=".01" value="3.5"></label>
+<label>Anfangstilgung p.a. (%)<input id="repay" type="number" step=".1" value="2"></label><label>Sondertilgung / Jahr (€)<input id="extra" type="number" value="0"></label>
+<label>Zinsbindung (Jahre)<input id="fixed" type="number" value="10"></label><label>Anschlusszins (%)<input id="refi" type="number" step=".1" value="5"></label>
+</div></div>
+<div class="card"><h2>3. Laufende Kosten</h2><div class="fields">
+<label>Nicht umlagefähiges Hausgeld / Monat (€)<input id="house" type="number" value="100"></label><label>Instandhaltung / Rücklage / Monat (€)<input id="maintenance" type="number" value="100"></label>
+<label>Verwaltung / Monat (€)<input id="management" type="number" value="30"></label><label>Sonstige Kosten / Monat (€)<input id="othercost" type="number" value="20"></label>
+<label>Leerstand (%)<input id="vacancy" type="number" step=".1" value="2"></label><label>Mietsteigerung p.a. (%)<input id="rentgrowth" type="number" step=".1" value="1.5"></label>
+</div></div>
+<div class="card"><h2>4. Steuer & Wertentwicklung</h2><div class="fields">
+<label>Persönlicher Grenzsteuersatz (%)<input id="tax" type="number" step=".1" value="35"></label><label>Gebäudeanteil (%)<input id="building" type="number" step=".1" value="80"></label>
+<label>AfA-Satz (%)<input id="afa" type="number" step=".1" value="2"></label><label>Wertsteigerung p.a. (%)<input id="growth" type="number" step=".1" value="2"></label>
+<label>Haltedauer (Jahre)<input id="years" type="number" value="20"></label><label>Verkaufskosten (%)<input id="sellcost" type="number" step=".1" value="2"></label>
+</div><button onclick="calc()">Berechnen</button><button class="secondary" onclick="location.reload()">Beispiel zurücksetzen</button></div>
+</div><div>
+<div id="status" class="status good">🟢 Sehr interessant</div>
+<div class="card"><h2>Die wichtigsten Zahlen</h2><div class="results">
+<div class="metric"><small>Bruttomietrendite</small><div class="v" id="gross">–</div></div><div class="metric"><small>Nettomietrendite</small><div class="v" id="net">–</div></div>
+<div class="metric"><small>Cashflow vor Steuer</small><div class="v" id="cash">–</div></div><div class="metric"><small>Cashflow nach Steuer</small><div class="v" id="cashTax">–</div></div>
+<div class="metric"><small>Eigenkapitalrendite*</small><div class="v" id="roe">–</div></div><div class="metric"><small>Kaufpreisfaktor</small><div class="v" id="factor">–</div></div>
+</div></div>
+<div class="card"><h2>🎯 Was darf die Immobilie maximal kosten?</h2><div class="muted">Maximaler Kaufpreis, damit der laufende Cashflow nach Steuer mindestens 0 € beträgt.</div><div class="big" id="maxprice">–</div><div class="hint">Vereinfachte Näherung.</div></div>
+<div class="card"><h2>🏦 Finanzierung</h2><table>
+<tr><td>Kaufnebenkosten</td><td id="anc">–</td></tr><tr><td>Gesamtinvestition</td><td id="total">–</td></tr><tr><td>Darlehen</td><td id="loan">–</td></tr><tr><td>Monatliche Rate</td><td id="rate">–</td></tr><tr><td>Restschuld nach 10 Jahren</td><td id="rest10">–</td></tr><tr><td>Restschuld nach Haltedauer</td><td id="rest">–</td></tr>
+</table></div>
+<div class="card"><h2>📈 Langfristiger Vermögensaufbau</h2><table>
+<tr><td>Immobilienwert am Ende</td><td id="future">–</td></tr><tr><td>Verkaufskosten</td><td id="sell">–</td></tr><tr><td>Restschuld</td><td id="rest2">–</td></tr><tr><td>Nettovermögen bei Verkauf*</td><td id="wealth">–</td></tr>
+</table><br><div class="bar"><i id="bar"></i></div></div>
+<div class="card"><h2>🧠 Einschätzung</h2><p id="advice" style="line-height:1.55;margin:0">–</p></div>
+<div class="card"><h2>⚠️ Wichtig</h2><p class="hint">Modellrechnung, keine Steuer- oder Anlageberatung. Die Steuerberechnung ist vereinfacht; AfA, Gebäudeanteil, Erhaltungsaufwand, Schuldzinsen und persönliche Steuerprogression können im Einzelfall anders wirken.</p></div>
+</div></div></div>
+<script>
+const euro=x=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(x);
+const percent=x=>(isFinite(x)?x:0).toFixed(2)+' %'; const n=id=>Number(document.getElementById(id).value)||0;
+function model(P){const rent=n('rent'),tr=n('transfer')/100,br=n('broker')/100,no=n('notary')/100,reno=n('reno'),ob=n('otherbuy'),eq=n('equity'),i=n('interest')/100,t=n('repay')/100,extra=n('extra');
+const costs=(n('house')+n('maintenance')+n('management')+n('othercost'))*12,vac=n('vacancy')/100,tax=n('tax')/100,afaAmt=P*(n('building')/100)*(n('afa')/100);
+const anc=P*(tr+br+no)+ob,total=P+anc+reno,loan=Math.max(0,total-eq),rate=loan*(i+t)/12,annualRent=rent*12*(1-vac),interest=loan*i,taxable=annualRent-costs-interest-afaAmt,cash=annualRent-costs-rate*12,cashTax=cash-taxable*tax;return{P,anc,total,loan,rate,annualRent,costs,interest,taxable,cash,cashTax}}
+function balanceAt(y,loan,rate,i,extra){let b=loan;for(let k=1;k<=y&&b>0;k++){let principal=Math.max(0,rate*12-b*i+extra);b=Math.max(0,b-principal)}return b}
+function findMax(){let lo=0,hi=Math.max(n('price')*2,1000000);for(let k=0;k<70;k++){let mid=(lo+hi)/2;if(model(mid).cashTax>=0)lo=mid;else hi=mid}return lo}
+function calc(){let m=model(n('price')),years=Math.max(1,n('years')),i=n('interest')/100,g=n('growth')/100,sc=n('sellcost')/100;
+let gross=m.annualRent/m.P*100,net=(m.annualRent-m.costs)/m.total*100,factor=m.P/(n('rent')*12),r10=balanceAt(10,m.loan,m.rate,i,n('extra')),rest=balanceAt(years,m.loan,m.rate,i,n('extra')),future=m.P*Math.pow(1+g,years),sell=future*sc,wealth=future-sell-rest,roe=(m.cashTax*12+(m.loan-rest))/Math.max(n('equity'),1)*100,max=findMax();
+document.getElementById('gross').textContent=percent(gross);document.getElementById('net').textContent=percent(net);document.getElementById('cash').textContent=euro(m.cash/12);document.getElementById('cashTax').textContent=euro(m.cashTax/12);document.getElementById('roe').textContent=percent(roe);document.getElementById('factor').textContent=factor.toFixed(1)+'x';
+document.getElementById('anc').textContent=euro(m.anc);document.getElementById('total').textContent=euro(m.total);document.getElementById('loan').textContent=euro(m.loan);document.getElementById('rate').textContent=euro(m.rate);document.getElementById('rest10').textContent=euro(r10);document.getElementById('rest').textContent=euro(rest);
+document.getElementById('future').textContent=euro(future);document.getElementById('sell').textContent=euro(sell);document.getElementById('rest2').textContent=euro(rest);document.getElementById('wealth').textContent=euro(wealth);document.getElementById('maxprice').textContent=euro(max);document.getElementById('bar').style.width=Math.min(100,Math.max(0,wealth/Math.max(future,1)*100))+'%';
+let s=document.getElementById('status'),a=document.getElementById('advice');if(m.cashTax>150&&net>=4){s.className='status good';s.textContent='🟢 Sehr interessant';a.innerHTML='Positiver Cashflow nach Steuer und solide Nettorendite. Kaufpreis, Mietpotenzial, Zustand und Unterlagen trotzdem prüfen.'}else if(m.cashTax>=0&&net>=3){s.className='status warn';s.textContent='🟡 Interessant – genau prüfen';a.innerHTML='Die Rechnung funktioniert, aber der Puffer ist begrenzt. Besonders Kaufpreis, Hausgeld, Rücklagen und Zins prüfen.'}else{s.className='status bad';s.textContent='🔴 Eher unattraktiv';a.innerHTML='Bei diesen Annahmen ist der Cashflow zu schwach. Orientierung: maximaler Kaufpreis für 0 € Cashflow ≈ <b>'+euro(max)+'</b>.'}}
+document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc));calc();
+</script></body></html>
